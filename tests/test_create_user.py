@@ -12,53 +12,31 @@ from user_methods import CreateUser, DeleteUser
 class TestCreateNewUser:
 
     @allure.title('Проверяем, что при регистрации уникального пользователя в теле ответа на запрос присутствует ключ "success" со значением "True"')
-    def test_create_new_user_successfully(self):
-        with allure.step('Генерируем данные уникального пользователя'):
-            user_data = UserData.generate_new_user_data()
-        with allure.step('Отправляем запрос на создание уникального пользователя'):
-            response = CreateUser.register_new_user(user_data)
-        with allure.step('Проверяем, что код статуса ответа при созданиии уникального пользователя - 200'):
-            HelperMethods.check_status_code(response, StatusCodes.OK)
+    def test_create_new_user_successfully(self, generate_user):
         with allure.step('Проверяем, что в теле ответа содержится ключ "success" со значением "True" и присваиваем его переменной'):
-            response_value = HelperMethods.is_key_in_response_body(response.json(), KeyWords.SUCCESS)
-        with allure.step('Получаем авторизационный токен'):
-            access_token = HelperMethods.get_access_token(response.json())
-        with allure.step('Удаляем созданного пользователя'):
-            DeleteUser.delete_user(access_token)
+            response_value = HelperMethods.is_key_in_response_body(generate_user[1], KeyWords.SUCCESS)
         with allure.step('Сравниваем фактическое значение ключа "success" в теле ответа с ожидаемым - "True"'):
             assert response_value, f'Неверное значение ключа {KeyWords.SUCCESS} в теле ответа'
 
 
     @allure.title('Проверяем, что при регистрации уникального пользователя в теле ответа содержатся "email" и "name", отправленные в запросе на регистрацию')
-    def test_create_new_user_get_email_and_name(self):
-        with allure.step('Генерируем данные уникального пользователя'):
-            user_data = UserData.generate_new_user_data()
-        with allure.step('Отправляем запрос на создание уникального пользователя'):
-            response = CreateUser.register_new_user(user_data)
-        with allure.step('Проверяем, что код статуса ответа при созданиии уникального пользователя - 200'):
-            HelperMethods.check_status_code(response, StatusCodes.OK)
-        with allure.step('Получаем тело ответа в виде словаря'):
-            response_body = response.json()
+    def test_create_new_user_get_email_and_name(self, generate_user):
         with allure.step('Проверяем, что в теле ответа содержится ключ "user"'):
-            assert KeyWords.USER in response_body, f'В теле ответа отсутствует ключ {KeyWords.USER}'
+            assert KeyWords.USER in generate_user[1], f'В теле ответа отсутствует ключ {KeyWords.USER}'
         with allure.step('Проверяем, что в теле ответа ключ "user" содержится в виде словаря'):
-            assert type(HelperMethods.is_key_in_response_body(response_body, KeyWords.USER)) is dict, f'Данные в ответе на запрос в поле {KeyWords.USER} содержатся не в виде словаря'
+            assert type(HelperMethods.is_key_in_response_body(generate_user[1], KeyWords.USER)) is dict, f'Данные в ответе на запрос в поле {KeyWords.USER} содержатся не в виде словаря'
         with allure.step('Назначаем переменную словарю, полученному по ключу "user"'):
-            user_dict = HelperMethods.is_key_in_response_body(response_body, KeyWords.USER)
+            user_dict = HelperMethods.is_key_in_response_body(generate_user[1], KeyWords.USER)
         with allure.step('Получаем значение ключа "email" из данных, отправленных в запросе на регистрацию уникального пользователя'):
-            email = user_data[KeyWords.EMAIL]
+            email = generate_user[0][KeyWords.EMAIL]
         with allure.step('Получаем в теле ответа значение ключа "email" из словаря "user"'):
             email_response = user_dict[KeyWords.EMAIL]
         with allure.step('Проверяем, что "email", отправленный в запросе, и "email", полученный в теле ответа на запрос, совпадают'):
             assert email == email_response, f'"{email}", указанный в запросе, и "{email}", полученный в теле ответа на запрос, НЕ совпадают'
         with allure.step('Получаем значение ключа "name" из данных, отправленных в запросе на регистрацию уникального пользователя'):
-            name = user_data[KeyWords.NAME]
+            name = generate_user[0][KeyWords.NAME]
         with allure.step('Получаем в теле ответа значение ключа "name" из словаря "user"'):
             name_response = user_dict[KeyWords.NAME]
-        with allure.step('Получаем авторизационный токен'):
-            access_token = HelperMethods.get_access_token(response.json())
-        with allure.step('Удаляем созданного пользователя'):
-            DeleteUser.delete_user(access_token)
         with allure.step('Проверяем, что "name", отправленный в запросе, и "name", полученный в теле ответа на запрос, совпадают'):
             assert name == name_response, f'"{name}", указанное в запросе, и "{name_response}", полученное в теле ответа на запрос, НЕ совпадают'
 

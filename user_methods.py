@@ -9,14 +9,14 @@ class CreateUser:
     # Отправляем запрос на создание уникального пользователя
     @staticmethod
     def register_new_user(user_data):
-        return requests.post(f'{Url.REGISTER_USER}', data=user_data)
+        return requests.post(f'{Url.BASE_URL+Url.REGISTER_USER}', data=user_data)
 
 class DeleteUser:
 
     # Отправляем запрос на удаление существующего пользователя
     @staticmethod
     def delete_user(access_token):
-        return requests.delete(f'{Url.DELETE_USER}', headers={KeyWords.AUTH_FIELD: access_token})
+        return requests.delete(f'{Url.BASE_URL+Url.DELETE_USER}', headers={KeyWords.AUTH_FIELD: access_token})
 
 class LoginUser:
 
@@ -24,4 +24,4 @@ class LoginUser:
     @staticmethod
     def auth_user(email, password):
         data = {KeyWords.EMAIL: email, KeyWords.PASSWORD: password}
-        return requests.post(f'{Url.LOGIN_USER}', data=data)
+        return requests.post(f'{Url.BASE_URL+Url.LOGIN_USER}', data=data)

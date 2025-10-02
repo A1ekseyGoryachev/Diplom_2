@@ -1,8 +1,9 @@
 class Url:
 
 
-    DELETE_USER = 'https://stellarburgers.nomoreparties.site/api/auth/user' #Эндпоинт для удаления пользователя
-    GET_INGREDIENTS = 'https://stellarburgers.nomoreparties.site/api/ingredients' #Эндпоинт для получения данных об ингредиентах
-    LOGIN_USER = 'https://stellarburgers.nomoreparties.site/api/auth/login' #Эндпоинт для авторизации пользователя    
-    MAKE_ORDER = 'https://stellarburgers.nomoreparties.site/api/orders'  #Эндпоинт для создания заказа  
-    REGISTER_USER = 'https://stellarburgers.nomoreparties.site/api/auth/register' #Эндпоинт для создания пользователя
+    BASE_URL = 'https://stellarburgers.nomoreparties.site' # Базовый URL
+    DELETE_USER = '/api/auth/user' #Эндпоинт для удаления пользователя
+    GET_INGREDIENTS = '/api/ingredients' #Эндпоинт для получения данных об ингредиентах
+    LOGIN_USER = '/api/auth/login' #Эндпоинт для авторизации пользователя    
+    MAKE_ORDER = '/api/orders'  #Эндпоинт для создания заказа  
+    REGISTER_USER = '/api/auth/register' #Эндпоинт для создания пользователя
