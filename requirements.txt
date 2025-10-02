@@ -1,0 +1,14 @@
+allure-pytest==2.13.5
+allure-python-commons==2.13.5
+Faker==33.1.0
+pytest==8.3.3
+pytest-cov==6.0.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+requests==2.32.3
+selenium==4.27.1
+six==1.16.0
+urllib3==2.2.3
+webdriver-manager==4.0.2
+websocket-client==1.8.0
+wsproto==1.2.0
